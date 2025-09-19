@@ -147,12 +147,29 @@
         <button id="addImgs">Añadir</button>
         <span class="muted">Arrastra para reordenar, elimina con ✖ y exporta.</span>
       </div>
-      <div id="imgList" class="stack"></div>
       <div class="row">
         <input id="pdfName" type="text" placeholder="archivo.pdf" />
         <button id="exportPdf">Exportar PDF</button>
         <button id="clearImgs" class="ghost">Vaciar</button>
       </div>
+      <div id="imgList" class="stack"></div>      
+    </section>
+
+    <section class="card">
+      <h2>4) Organizar páginas de PDFs</h2>
+      <div class="row">
+        <input id="mgrPdfInput" type="file" accept="application/pdf" multiple />
+        <button id="mgrAddPdf">Añadir PDF(s)</button>
+        <input id="mgrImgInput" type="file" accept="image/*" multiple />
+        <button id="mgrAddImg">Añadir imagen(es)</button>
+      </div>
+      <div class="row">
+        <input id="mgrOutName" type="text" placeholder="organizado.pdf" />
+        <button id="mgrExport">Exportar PDF organizado</button>
+        <button id="mgrClear" class="ghost">Vaciar</button>
+      </div>
+      <div id="mgrList" class="stack"></div>
+      <div class="muted">Arrastra para reordenar, o usa ↑/↓; elimina con ✖. Puedes mezclar páginas de varios PDFs con imágenes.</div>
     </section>
 
     <!-- 2) PDF -> Imágenes (ZIP) -->
@@ -187,22 +204,6 @@
     </section>
 
     <!-- 4) Organizar páginas de PDFs (reordenar/añadir/eliminar + drag&drop) -->
-    <section class="card">
-      <h2>4) Organizar páginas de PDFs</h2>
-      <div class="row">
-        <input id="mgrPdfInput" type="file" accept="application/pdf" multiple />
-        <button id="mgrAddPdf">Añadir PDF(s)</button>
-        <input id="mgrImgInput" type="file" accept="image/*" multiple />
-        <button id="mgrAddImg">Añadir imagen(es)</button>
-      </div>
-      <div id="mgrList" class="stack"></div>
-      <div class="row">
-        <input id="mgrOutName" type="text" placeholder="organizado.pdf" />
-        <button id="mgrExport">Exportar PDF organizado</button>
-        <button id="mgrClear" class="ghost">Vaciar</button>
-      </div>
-      <div class="muted">Arrastra para reordenar, o usa ↑/↓; elimina con ✖. Puedes mezclar páginas de varios PDFs con imágenes.</div>
-    </section>
 
     <!-- 5) ID en una sola hoja (frente + reverso) -->
     <section class="card">
