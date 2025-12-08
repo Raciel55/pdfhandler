@@ -432,8 +432,7 @@
         // añadir dos entradas iguales (duplicado automático)
         const baseName = (f.name||'imagen').replace(/\.[^/.]+$/, '');
         const extName = '.jpg';
-        const indexBase = itemsDup.length + 1;// generar 3 copias
-    const indexBase = itemsDup.length + 1;
+        const indexBase = itemsDup.length + 1;
         // push two copies with distinct sequential names
         itemsDup.push({ dataURL, width: img.width, height: img.height, name: `${baseName}_${String(indexBase).padStart(3,'0')}${extName}` });
         itemsDup.push({ dataURL, width: img.width, height: img.height, name: `${baseName}_${String(indexBase+1).padStart(3,'0')}${extName}` });
@@ -706,5 +705,3 @@
   </script>
 </body>
 </html>
-
-
