@@ -589,7 +589,8 @@
         c.getContext('2d').drawImage(img, 0, 0);
         const dataURL = c.toDataURL('image/jpeg', 0.92);
 
-        // Duplicado automático (ANTES)
+        // TRIPLICAR (3 veces)
+        itemsDup.push({ name: f.name, width: img.width, height: img.height, dataURL });
         itemsDup.push({ name: f.name, width: img.width, height: img.height, dataURL });
         itemsDup.push({ name: f.name, width: img.width, height: img.height, dataURL });
       }
@@ -602,14 +603,25 @@
 
     $('dupExport').onclick = async () => {
       if (itemsDup.length === 0) return alert('No hay imágenes para exportar.');
-      const zipName = ($('dupZipName').value || 'imagenes_duplicadas.zip').replace(/\.zip$/i, '') + '.zip';
+
+      const zipName = ($('dupZipName').value || 'imagenes_duplicadas.zip')
+        .replace(/\.zip$/i, '') + '.zip';
+
       const zip = new JSZip();
-      itemsDup.forEach(it => {
-        zip.file(it.name, it.dataURL.split(',')[1], { base64: true });
+
+      itemsDup.forEach((it, idx) => {
+        // Nombre único para evitar sobrescritura
+        const uniqueName = `${idx + 1}_${it.name}`;
+        zip.file(uniqueName, it.dataURL.split(',')[1], { base64: true });
       });
+
       const blob = await zip.generateAsync({ type: 'blob' });
-      const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = zipName; a.click();
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = zipName;
+      a.click();
     };
+
 
     // ---------- 3) Unir PDFs (lista reordenable) ----------
     const mergeState = { files: [] }; // [{name, arrayBuffer}]
