@@ -563,64 +563,40 @@
     // itemsDup: array of { dataURL, width, height, name }
     const itemsDup = [];
     function renderDupList() {
-      const box = $('dupImgList');
-      box.innerHTML = '';
-
-      if (itemsDup.length === 0) {
-        const i = document.createElement('div');
-        i.className = 'muted';
-        i.textContent = 'Sin imágenes.';
-        box.append(i);
-        return;
-      }
-
+      const box = $('dupImgList'); box.innerHTML = '';
+      if (itemsDup.length === 0) { const i = document.createElement('div'); i.className = 'muted'; i.textContent = 'Sin imágenes.'; box.append(i); return; }
       itemsDup.forEach((it, idx) => {
-        // TRIPLICAR AQUÍ → renderizar 3 veces cada imagen
-        for (let t = 0; t < 3; t++) {
-          const el = document.createElement('div');
-          el.className = 'item';
-
-          const im = document.createElement('img');
-          im.className = 'thumb';
-          im.src = it.dataURL;
-
-          const meta = document.createElement('div');
-          meta.innerHTML = `<div>${it.name}</div><small class="muted">${it.width}×${it.height}px</small>`;
-
-          const del = document.createElement('button');
-          del.textContent = '✖';
-          del.className = 'danger';
-          del.style.padding = '6px 10px';
-          del.onclick = () => {
-            itemsDup.splice(idx, 1);
-            renderDupList();
-          };
-
-          el.append(im, meta, del);
-          box.append(el);
-        }
+        const el = document.createElement('div'); el.className = 'item';
+        const im = document.createElement('img'); im.className = 'thumb'; im.src = it.dataURL;
+        const meta = document.createElement('div'); meta.innerHTML = `<div>${it.name}</div><small class="muted">${it.width}×${it.height}px</small>`;
+        const del = document.createElement('button'); del.textContent = '✖'; del.className = 'danger'; del.style.padding = '6px 10px'; del.onclick = () => { itemsDup.splice(idx, 1); renderDupList(); };
+        el.append(im, meta, del);
+        box.append(el);
       });
     }
 
     $('dupAddImgs').onclick = async () => {
-      const files = $('dupImgInput').files; if (!files || !files.length) return;
+      const files = $('dupImgInput').files;
+      if (!files || !files.length) return;
+
       for (const f of files) {
         const img = await loadImageFromFile(f);
+
         // crear dataURL JPG en tamaño original
-        const c = document.createElement('canvas'); c.width = img.width; c.height = img.height;
+        const c = document.createElement('canvas');
+        c.width = img.width;
+        c.height = img.height;
         c.getContext('2d').drawImage(img, 0, 0);
         const dataURL = c.toDataURL('image/jpeg', 0.92);
-        // añadir dos entradas iguales (duplicado automático)
-        const baseName = (f.name || 'imagen').replace(/\.[^/.]+$/, '');
-        const extName = '.jpg';
-        const indexBase = itemsDup.length + 1;
-        // push two copies with distinct sequential names
-        itemsDup.push({ dataURL, width: img.width, height: img.height, name: `${baseName}_${String(indexBase).padStart(3, '0')}${extName}` });
-        itemsDup.push({ dataURL, width: img.width, height: img.height, name: `${baseName}_${String(indexBase + 1).padStart(3, '0')}${extName}` });
+
+        // Duplicado automático (ANTES)
+        itemsDup.push({ name: f.name, width: img.width, height: img.height, dataURL });
+        itemsDup.push({ name: f.name, width: img.width, height: img.height, dataURL });
       }
-      $('dupImgInput').value = '';
+
       renderDupList();
     };
+
 
     $('dupClear').onclick = () => { itemsDup.length = 0; renderDupList(); $('dupImgInput').value = ''; };
 
